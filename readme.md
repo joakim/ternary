@@ -25,12 +25,29 @@ As well as:
 
 Also included is `Ternary`, a function/class like `Boolean`, for coercing any value to a ternary value. Note that this will be sloppy, because JavaScript.
 
+## What for?
+
+> What do I need ternary for?
+
+Well, sometimes you need a third value:
+
+- Dealing with unknowns (true, false, unknown)
+- Comparisons (larger, smaller, equal)
+- User input (yes, no, not applicable)
+- Access control (allow, deny, indeterminate)
+- Motors (forward, backward, no rotation)
+- Charges (positive, negative, no charge)
+- …
+
+A variable that is `boolean | undefined` is already ternary. This library merely formalizes it and provides functions for correct evaluation using ternary logic, where `undefined` is part of the equation.
+
+> Ternary – you either need it, don't need it, or don't know whether you need it or not.
 
 ## Truth tables
 
 _A quick guide to ternary logic_
 
-While clearly more complex than boolean logic, ternary is not as complicated as it looks once you get the hang of it. It may help to think of `undefined` as an _unknown_ truth value.
+While clearly more complex than boolean logic, ternary is not as difficult as it looks once you get the hang of it. It helps to think of `undefined` as an _unknown_ truth value.
 
 - F = `false`
 - U = `undefined` or _unknown_
@@ -109,6 +126,6 @@ XOR negated. The result is `true` only when the operands are _the same boolean_.
 
 ## License
 
-This work is dual-licensed under MIT and XPL. You can choose either of the two.
+This work is dual-licensed under both MIT and XPL. You can choose either of the two.
 
 `SPDX-License-Identifier: MIT OR XPL`
