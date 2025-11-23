@@ -37,7 +37,7 @@ export function cond<T = any>(condition: ternary, ifTrue: any, ifFalse?: any, if
 /** Logical equality for a set of ternary operands. Alias of `xnor`. */
 export const eq = xnor
 
-interface TernaryInstance extends Object {
+interface TernaryInstance {
   /** Returns the primitive value of the `Ternary` object. */
   valueOf(): ternary
   /** Returns a string representation of the ternary value. */
