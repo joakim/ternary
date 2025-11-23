@@ -105,3 +105,10 @@ XOR negated. The result is `true` only when the operands are _the same boolean_.
 | **F**   | T     | U     | F     |
 | **U**   | U     | U     | U     |
 | **T**   | F     | U     | T     |
+
+
+## License
+
+This work is dual-licensed under MIT and XPL. You can choose either of the two.
+
+`SPDX-License-Identifier: MIT OR XPL`
