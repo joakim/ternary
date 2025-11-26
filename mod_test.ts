@@ -68,9 +68,9 @@ Deno.test(function eqTest() {
 })
 
 Deno.test(function condTest() {
-  assertEquals(cond(t, t, f, u), t)
-  assertEquals(cond(f, t, f, u), f)
-  assertEquals(cond(u, t, f, u), u)
+  assertEquals(cond(t, "t", "f", "u"), "t")
+  assertEquals(cond(f, "t", "f", "u"), "f")
+  assertEquals(cond(u, "t", "f", "u"), "u")
 })
 
 Deno.test(function functionTest() {

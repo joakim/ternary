@@ -30,7 +30,9 @@ export function xnor(a: ternary, b: ternary): ternary {
 }
 
 /** Ternary conditional, evaluates to one of three values based on a ternary condition. */
-export function cond<T = any>(condition: ternary, ifTrue: any, ifFalse?: any, ifUndefined?: any): T {
+export function cond(condition: ternary, ifTrue: unknown, ifFalse?: unknown, ifUndefined?: unknown): unknown
+export function cond<T>(condition: ternary, ifTrue: T, ifFalse?: T, ifUndefined?: T): T
+export function cond(condition: ternary, ifTrue: any, ifFalse?: any, ifUndefined?: any): any {
   return condition === true ? ifTrue : condition === false ? ifFalse : ifUndefined
 }
 
