@@ -36,7 +36,10 @@ export function cond(condition: ternary, ifTrue: any, ifFalse?: any, ifUndefined
   return condition === true ? ifTrue : condition === false ? ifFalse : ifUndefined
 }
 
-/** Logical equality for a set of ternary operands. Alias of `xnor`. */
+/**
+ * Logical equality for a set of ternary operands. Alias of `xnor`.
+ * @see xnor
+ */
 export const eq = xnor
 
 interface TernaryInstance {
