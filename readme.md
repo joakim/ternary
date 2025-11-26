@@ -49,7 +49,7 @@ A variable that is `boolean | undefined` is already ternary. This library merely
 
 _A quick guide to ternary logic_
 
-While more complex than boolean logic, ternary is not as difficult as it looks once you get the hang of it. It helps to think of `undefined` as an _unknown_ truth value that's neither `true` nor `false`.
+While more complex than boolean logic, ternary is not as difficult as it looks once you get the hang of it. It helps to think of `undefined` as an _unknown_ truth value that could potentially be `true` or `false`, we just don't know.
 
 - F = `false`
 - U = `undefined` or _unknown_
@@ -98,7 +98,7 @@ The following are less common. You probably only need the above tables.
 
 ### xor
 
-The result is `true` only when the operands are _different booleans_. It's just like boolean **xor**, except `undefined` always wins out.
+The result is `true` only when the operands are different boolean values. It's just like boolean **xor**, except `undefined` always wins out.
 
 - If one operand is `true` and the other is `false`, it returns `true`
 - If both operands are `true` or both are `false`, it returns `false`
@@ -112,7 +112,7 @@ The result is `true` only when the operands are _different booleans_. It's just 
 
 ### xnor (eq)
 
-Negation of **xor**. The result is `true` only when the operands are _the same boolean_. It's just like boolean XNOR, except `undefined` always wins out.
+Negation of **xor**. The result is `true` only when the operands are the same boolean value. It's just like boolean **xnor**, except `undefined` always wins out.
 
 - If both operands are `true` or both are `false`, it returns `true`
 - If one operand is `true` and the other is `false`, it returns `false`
