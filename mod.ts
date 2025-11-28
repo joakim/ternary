@@ -4,29 +4,80 @@
  */
 export type ternary = boolean | undefined
 
-/** Logical NOT (logical complement, negation) of a ternary operand. Converts truth to falsity and vice versa. */
+/**
+ * Logical complement (negation) of a ternary operand.
+ *
+ * @returns
+ *   - the negated boolean if a boolean
+ *   - `undefined` if `undefined`
+ */
 export function not(a: ternary): ternary {
   return a === undefined ? undefined : !a
 }
 
-/** Logical AND (logical conjunction) for a set of ternary operands. */
-export function and(a: ternary, b: ternary): ternary {
+/**
+ * Logical conjunction of two ternary operands.
+ *
+ * @returns
+ *   - `false` if any operand is `false`
+ *   - otherwise, `undefined` if any operand is `undefined`
+ *   - otherwise, `true`
+ * @see and
+ */
+export function both(a: ternary, b: ternary): ternary {
   return a === false ? false : (a === true ? (b === undefined ? undefined : b) : (b === false ? false : undefined))
 }
 
-/** Logical OR (logical disjunction) for a set of ternary operands. */
-export function or(a: ternary, b: ternary): ternary {
+/**
+ * Logical disjunction of two ternary operands.
+ *
+ * @returns
+ *   - `true` if any operand is `true`
+ *   - otherwise, `undefined` if any operand is `undefined`
+ *   - otherwise, `false`
+ * @see or
+ */
+export function either(a: ternary, b: ternary): ternary {
   return a === true ? true : (a === false ? (b === undefined ? undefined : b) : (b === true ? true : undefined))
 }
 
-/** Logical XOR (logical inequality) for a set of ternary operands. */
-export function xor(a: ternary, b: ternary): ternary {
+/**
+ * Logical equality of two ternary operands.
+ *
+ * @returns
+ *   - `true` if both operands are the same boolean
+ *   - `undefined` if any operand is `undefined`
+ *   - otherwise, `false`
+ * @see xnor
+ */
+export function same(a: ternary, b: ternary): ternary {
+  return a === undefined || b === undefined ? undefined : a === b
+}
+
+/**
+ * Logical inequality of two ternary operands.
+ *
+ * @returns
+ *   - `true` if both operands are different booleans
+ *   - `undefined` if any operand is `undefined`
+ *   - otherwise, `false`
+ * @see xor
+ */
+export function differ(a: ternary, b: ternary): ternary {
   return a === undefined || b === undefined ? undefined : a !== b
 }
 
-/** Logical XNOR (logical equality) for a set of ternary operands. */
-export function xnor(a: ternary, b: ternary): ternary {
-  return a === undefined || b === undefined ? undefined : a === b
+/**
+ * Logical conjunction of an arbitrary number of ternary operands.
+ *
+ * @returns
+ *   - `false` if any operand is `false`
+ *   - otherwise, `undefined` if any operand is `undefined`
+ *   - otherwise, `true`
+ * @see both
+ */
+export function and(...operands: ternary[]): ternary {
+  return operands.reduce(both)
 }
 
 /** Ternary conditional, evaluates to one of three values based on a ternary condition. */
@@ -34,13 +85,49 @@ export function cond(condition: ternary, ifTrue: unknown, ifFalse?: unknown, ifU
 export function cond<T>(condition: ternary, ifTrue: T, ifFalse?: T, ifUndefined?: T): T
 export function cond(condition: ternary, ifTrue: any, ifFalse?: any, ifUndefined?: any): any {
   return condition === true ? ifTrue : condition === false ? ifFalse : ifUndefined
+/**
+ * Logical disjunction of an arbitrary number of ternary operands.
+ *
+ * @returns
+ *   - `true` if any operand is `true`
+ *   - otherwise, `undefined` if any operand is `undefined`
+ *   - otherwise, `false`
+ * @see either
+ */
+export function or(...operands: ternary[]): ternary {
+  return operands.reduce(either)
 }
 
 /**
- * Logical equality for a set of ternary operands. Alias of `xnor`.
- * @see xnor
+ * Logical equality of an arbitrary number of ternary operands.
+ *
+ * Returns `true` only if all operands are the same boolean.
+ *
+ * @returns
+ *   - `true` if all operands are the same boolean
+ *   - otherwise, `undefined` if any operand is `undefined`
+ *   - otherwise, `false`
+ * @see same
  */
 export const eq = xnor
+export function xnor(...operands: ternary[]): ternary {
+  return (operands.length < 2 || operands.indexOf(undefined) > -1) ? undefined : operands.every(operand => operand === operands[0])
+}
+
+/**
+ * Logical inequality of an arbitrary number of ternary operands.
+ *
+ * Returns `true` only if the operands are not all the same boolean.
+ *
+ * @returns
+ *   - `false` if all operands are the same boolean
+ *   - otherwise, `undefined` if any operand is `undefined`
+ *   - otherwise, `true`
+ * @see differ
+ */
+export function xor(...operands: ternary[]): ternary {
+  return (operands.length < 2 || operands.indexOf(undefined) > -1) ? undefined : !operands.every(operand => operand === operands[0])
+}
 
 interface TernaryInstance {
   /** Returns the primitive value of the `Ternary` object. */
