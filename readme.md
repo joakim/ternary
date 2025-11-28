@@ -111,7 +111,7 @@ check({ income: false, debt: undefined, assets: undefined, history: false }) // 
 If the arguments to `resolve` were functions, one could call the resolved function:
 
 ```ts
-resolve(result, approve, reject, review)(applicant)
+resolve(result, approve, reject, review)(application)
 ```
 
 ## Truth tables
