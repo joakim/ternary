@@ -137,6 +137,20 @@ export function resolve(condition: ternary, isTrue: any, isFalse?: any, isUndefi
   return condition === true ? isTrue : condition === false ? isFalse : isUndefined
 }
 
+/**
+ * Collapses a ternary condition to a boolean using Priest's Logic of Paradox, where `undefined` means "both `true` and
+ * `false`" and therefore evaluates to `true`.
+ *
+ * @returns
+ *   - the value of `isTrue` if the `condition` is `true` or `undefined`
+ *   - the value of `isFalse` if the `condition` is `false`
+ */
+export function collapse(condition: ternary, isTrue: unknown, isFalse?: unknown): unknown
+export function collapse<T>(condition: ternary, isTrue: T, isFalse?: T): T
+export function collapse(condition: ternary, isTrue: any, isFalse?: any): any {
+  return condition === false ? isFalse : isTrue
+}
+
 interface TernaryInstance {
   /** Returns the primitive value of the `Ternary` object. */
   valueOf(): ternary
