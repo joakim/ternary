@@ -80,11 +80,6 @@ export function and(...operands: ternary[]): ternary {
   return operands.reduce(both)
 }
 
-/** Ternary conditional, evaluates to one of three values based on a ternary condition. */
-export function cond(condition: ternary, ifTrue: unknown, ifFalse?: unknown, ifUndefined?: unknown): unknown
-export function cond<T>(condition: ternary, ifTrue: T, ifFalse?: T, ifUndefined?: T): T
-export function cond(condition: ternary, ifTrue: any, ifFalse?: any, ifUndefined?: any): any {
-  return condition === true ? ifTrue : condition === false ? ifFalse : ifUndefined
 /**
  * Logical disjunction of an arbitrary number of ternary operands.
  *
@@ -109,7 +104,6 @@ export function or(...operands: ternary[]): ternary {
  *   - otherwise, `false`
  * @see same
  */
-export const eq = xnor
 export function xnor(...operands: ternary[]): ternary {
   return (operands.length < 2 || operands.indexOf(undefined) > -1) ? undefined : operands.every(operand => operand === operands[0])
 }
@@ -127,6 +121,20 @@ export function xnor(...operands: ternary[]): ternary {
  */
 export function xor(...operands: ternary[]): ternary {
   return (operands.length < 2 || operands.indexOf(undefined) > -1) ? undefined : !operands.every(operand => operand === operands[0])
+}
+
+/**
+ * Evaluates a ternary condition according to its truth value.
+ *
+ * @returns
+ *   - the value of `isTrue` if the `condition` is `true`
+ *   - the value of `isFalse` if the `condition` is `false`
+ *   - the value of `isUndefined` if the `condition` is `undefined`
+ */
+export function resolve(condition: ternary, isTrue: unknown, isFalse?: unknown, isUndefined?: unknown): unknown
+export function resolve<T>(condition: ternary, isTrue: T, isFalse?: T, isUndefined?: T): T
+export function resolve(condition: ternary, isTrue: any, isFalse?: any, isUndefined?: any): any {
+  return condition === true ? isTrue : condition === false ? isFalse : isUndefined
 }
 
 interface TernaryInstance {
