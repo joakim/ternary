@@ -158,20 +158,20 @@ interface TernaryInstance {
   toString(): string
 }
 
+/**
+ * When `Ternary()` is called as a constructor (with `new`), it coerces `value` to a ternary primitive and returns a
+ * wrapping `Ternary` object, which is not a primitive.
+ *
+ * **Warning:** You should rarely find yourself using `Ternary` as a constructor.
+ */
 type Ternary = {
+  new (value?: unknown): TernaryInstance
+
   /**
    * When `Ternary()` is called as a function (without `new`), it returns `value` coerced to a ternary primitive:
    * `true`, `false` or `undefined`.
    */
   (value?: unknown): ternary
-
-  /**
-   * When `Ternary()` is called as a constructor (with `new`), it coerces `value` to a ternary primitive and returns a
-   * wrapping `Ternary` object, which is not a primitive.
-   *
-   * **Warning:** You should rarely find yourself using `Ternary` as a constructor.
-   */
-  new (value?: unknown): TernaryInstance
 }
 
 export const Ternary: Ternary = (function (this: any, value?: unknown): any {
