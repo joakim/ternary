@@ -1,6 +1,6 @@
 # Ternary
 
-A lightweight, type-safe implementation of [three-valued logic][3VL] (3VL) that enables nuanced logical operations where information is indeterminate ([Łukasiewicz's Ł₃][L3]), unknown ([Kleene's K₃][K3]) or paradoxical ([Priest's LP][LP]).
+A lightweight, type-safe implementation of [three-valued logic][3VL] (3VL) that enables nuanced logical operations where truth can be indeterminate ([Łukasiewicz's Ł₃][L3]), unknown ([Kleene's K₃][K3]) or paradoxical ([Priest's LP][LP]).
 
 Nothing fancy, just:
 
@@ -32,12 +32,12 @@ Also included is `Ternary`, a function/class like `Boolean`, for coercing any va
 
 Sometimes things aren't quite so binary.
 
-|                        | `true`   | `false`  | `undefined`         | Logic |
-|------------------------|----------|----------|---------------------|-------|
-| **[Unknowability][]**  | true     | false    | unknown             | K₃    |
-| **[Undecidability][]** | true     | false    | undecidable         | K₃    |
-| **[Indeterminacy][]**  | true     | false    | indeterminate       | Ł₃    |
-| **[Paradoxical][]**    | true     | false    | both true and false | LP    |
+|                        | `true` | `false` | `undefined`    | Logic |
+|------------------------|--------|---------|----------------|-------|
+| **[Unknowability][]**  | true   | false   | unknown        | K₃    |
+| **[Undecidability][]** | true   | false   | undecidable    | K₃    |
+| **[Indeterminacy][]**  | true   | false   | indeterminate  | Ł₃    |
+| **[Paradoxical][]**    | true   | false   | true and false | LP    |
 
 For example:
 
@@ -49,15 +49,15 @@ For example:
 | **Decision system**   | approve  | reject   | needs review   |
 | **Electrical charge** | positive | negative | no charge      |
 
+> Ternary – either you need it, you don't need it, or you don't know whether you need it.
+
 A variable that is `true | false | undefined` is already ternary. This library merely formalizes that and provides useful functions for correct evaluation using ternary logic.
 
-In JavaScript's conditionals, `undefined` is coerced to `false` and effectively ignored.
+In JavaScript's own conditionals, `undefined` is coerced to `false` and effectively ignored.
 
 In Kleene/Łukasiewicz's ternary logic, `undefined` _propagates_: a compound condition is `true` or `false` only if it is _definitely_ `true` or _definitely_ `false`; otherwise it is `undefined`.
 
 In Priest's logic of paradox, a compound condition is `true` if it is either _definitely_ `true` or _simultaneously_ `true` and `false`, here represented by the value `undefined`.
-
-> Ternary – either you need it, you don't need it, or you don't know whether you need it.
 
 ## Installation
 
@@ -74,13 +74,13 @@ When working with ternary logic, one must choose the semantics of `undefined`, w
 That means deciding:
 
 1. What the third value means
-   - Kleene's K₃: unknowable, undecidable, not known
-   - Łukasiewicz's Ł₃: indeterminate, uncertain, not _yet_ known
-   - Priest's LP: paradoxical, known to be _simultaneously_ true and false
+   - Kleene's K₃: not known
+   - Łukasiewicz's Ł₃: not _yet_ known
+   - Priest's LP: known to be _simultaneously_ true and false
 
 2. How to handle the third value
-   - [`resolve`][resolve], acknowledging the existence of the third value
-   - [`collapse`][collapse] the ternary to boolean, with `undefined` evaluated as `true`
+   - [`resolve`][resolve] it, acknowledging the existence of the third value
+   - [`collapse`][collapse] it to a boolean, with `undefined` evaluated as `true` (LP)
    - Let JavaScript collapse it, coercing `undefined` to `false` in conditionals
 
 ### Example
@@ -103,10 +103,18 @@ function check({ income, debt, assets, history }: LoanApplicantStatus) {
   return resolve(result, "Approve", "Reject", "Needs review")
 }
 
-check({ income: true,  debt: false,     assets: true,      history: true  }) // "Approve"
-check({ income: true,  debt: undefined, assets: false,     history: false }) // "Needs review"
-check({ income: false, debt: undefined, assets: undefined, history: false }) // "Reject"
+check({ income: true,  debt: false,     assets: true,  history: true  }) // "Approve"
+check({ income: true,  debt: undefined, assets: false, history: false }) // "Needs review"
+check({ income: false, debt: undefined, assets: true,  history: false }) // "Reject"
 ```
+
+If one used `collapse` instead of `resolve`, `undefined` would evaluate as `true`, effectively approving any loan applications that would otherwise need review.
+
+```ts
+collapse(result, "Approve", "Reject")
+```
+
+If one used JavaScript's own conditionals instead, `undefined` would be coerced to `false`, effectively rejecting applications without review. When dealing with ternary logic, it often makes sense to acknowledge the third value.
 
 If the arguments to `resolve` were functions, one could call the resolved function:
 
