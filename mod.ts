@@ -130,6 +130,7 @@ export function xor(...operands: ternary[]): ternary {
  *   - the value of `isTrue` if the `condition` is `true`
  *   - the value of `isFalse` if the `condition` is `false`
  *   - the value of `isUndefined` if the `condition` is `undefined`
+ * @see collapse
  */
 export function resolve(condition: ternary, isTrue: unknown, isFalse?: unknown, isUndefined?: unknown): unknown
 export function resolve<T>(condition: ternary, isTrue: T, isFalse?: T, isUndefined?: T): T
@@ -144,6 +145,7 @@ export function resolve(condition: ternary, isTrue: any, isFalse?: any, isUndefi
  * @returns
  *   - the value of `isTrue` if the `condition` is `true` or `undefined`
  *   - the value of `isFalse` if the `condition` is `false`
+ * @see resolve
  */
 export function collapse(condition: ternary, isTrue: unknown, isFalse?: unknown): unknown
 export function collapse<T>(condition: ternary, isTrue: T, isFalse?: T): T
