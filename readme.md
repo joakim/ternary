@@ -53,15 +53,15 @@ For example:
 
 A variable that is `true | false | undefined` is already ternary. This library merely formalizes that and provides useful functions for correct evaluation using ternary logic.
 
+In Kleene/Łukasiewicz's ternary logic, `undefined` _propagates_: a compound condition is `true` or `false` only if it is definitely `true` or definitely `false`; otherwise it is `undefined`.
+
+In Priest's logic of paradox, a compound condition is `true` if it is either definitely `true` or _simultaneously_ `true` and `false`, here represented by the value `undefined`.
+
 In JavaScript's own conditionals, `undefined` is coerced to `false` and effectively ignored.
-
-In Kleene/Łukasiewicz's ternary logic, `undefined` _propagates_: a compound condition is `true` or `false` only if it is _definitely_ `true` or _definitely_ `false`; otherwise it is `undefined`.
-
-In Priest's logic of paradox, a compound condition is `true` if it is either _definitely_ `true` or _simultaneously_ `true` and `false`, here represented by the value `undefined`.
 
 ## Installation
 
-With your package manager of choice, install `@joakim/ternary` from either JSR or npm.
+With your package manager of choice, install `@joakim/ternary` from JSR.
 
 ## Usage
 
@@ -80,8 +80,8 @@ That means deciding:
 
 2. How to handle the third value
    - [`resolve`][resolve] it, acknowledging the existence of the third value
-   - [`collapse`][collapse] it to a boolean, with `undefined` evaluated as `true` (LP)
-   - Let JavaScript collapse it, coercing `undefined` to `false` in conditionals
+   - [`collapse`][collapse] it to a boolean, with `undefined` evaluated as `true` (LP style)
+   - Let JavaScript collapse it, coercing `undefined` to `false` in conditionals (sloppy style)
 
 ### Example
 
@@ -108,19 +108,38 @@ check({ income: true,  debt: undefined, assets: false, history: false }) // "Nee
 check({ income: false, debt: undefined, assets: true,  history: false }) // "Reject"
 ```
 
-If one used `collapse` instead of `resolve`, `undefined` would evaluate as `true`, effectively approving any loan applications that would otherwise need review.
+When working with ternary logic, it often makes sense to acknowledge the third value with `resolve`.
+
+If the example had used `collapse`, `undefined` would have been evaluated as `true`, effectively approving any loan application that would otherwise need review. Very generous, but not what you'd want.
 
 ```ts
 collapse(result, "Approve", "Reject")
 ```
 
-If one used JavaScript's own conditionals instead, `undefined` would be coerced to `false`, effectively rejecting applications without review. When dealing with ternary logic, it often makes sense to acknowledge the third value.
+If the example had used JavaScript's own conditionals, `undefined` would have been coerced to `false`, effectively rejecting any application that would otherwise need review. Not what you'd want either.
 
-If the arguments to `resolve` were functions, one could call the resolved function:
+### Tips
+
+In general, the functions lend themselves to a functional programming style.
+
+For example, arguments of `resolve` and `collapse` can be functions, allowing one to call the resolved function directly. They are also generic, allowing one to specify the type of its resolved values.
 
 ```ts
-resolve(result, approve, reject, review)(application)
+resolve<ApplicationHandler>(result, approve, reject, review)(application)
 ```
+
+Only the condition (first argument) and the `true` case (second argument) are required. The remaining arguments are optional, defaulting to `undefined`.
+
+The following logical connectives come in two variants, one for n-ary arguments and one for 2 arguments.
+
+| Connective | n-ary          | 2 arguments        |
+|------------|----------------|--------------------|
+| AND        | [`and`][and]   | [`both`][both]     |
+| OR         | [`or`][or]     | [`either`][either] |
+| XNOR       | [`xnor`][xnor] | [`same`][same]     |
+| XOR        | [`xor`][xor]   | [`differ`][differ] |
+
+The 2 argument versions have more intuitive names, making logical expressions read almost like sentences. The n-ary functions have worse performance, so only use them if more than 2 arguments are needed.
 
 ## Truth tables
 
