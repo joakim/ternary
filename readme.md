@@ -26,7 +26,7 @@ And conditional operations:
 
 These functions enforce strict equality, unlike JavaScript's [sloppy definition of truth][truthy].
 
-Also included is `Ternary`, a function/class like `Boolean`, for coercing any value to a ternary value. Note: the coercion is sloppy, because JavaScript.
+Also included is [`Ternary`][ternary], a function/class like `Boolean`, for coercing any value to a ternary value (sloppy, because JavaScript), as well as [`toBoolean`][toBoolean] for collapsing a ternary value to a boolean using Priest's Logic of Paradox. There's also [an alternative implementation](balanced.ts) with balanced ternary (`-1`, `0`, `+1`).
 
 ## What for?
 
@@ -55,7 +55,7 @@ A variable that is `true | false | undefined` is already ternary. This library m
 
 In Kleene/Łukasiewicz's ternary logic, `undefined` _propagates_: a compound condition is `true` or `false` only if it is definitely `true` or definitely `false`; otherwise it is `undefined`.
 
-In Priest's logic of paradox, a compound condition is `true` if it is either definitely `true` or _simultaneously_ `true` and `false`, here represented by the value `undefined`.
+In Priest's Logic of Paradox, a compound condition is `true` if it is either definitely `true` or _simultaneously_ `true` and `false`, here represented by the value `undefined`.
 
 In JavaScript's own conditionals, `undefined` is coerced to `false` and effectively ignored.
 
@@ -78,10 +78,10 @@ That means deciding:
    - Łukasiewicz's Ł₃: not _yet_ known
    - Priest's LP: known to be _simultaneously_ true and false
 
-2. How to handle the third value
+2. How to handle the truth
    - [`resolve`][resolve] it, acknowledging the existence of the third value
-   - [`collapse`][collapse] it to a boolean, with `undefined` evaluated as `true` (LP style)
-   - Let JavaScript collapse it, coercing `undefined` to `false` in conditionals (sloppy style)
+   - [`collapse`][collapse] it, with `undefined` evaluated as `true` (LP style)
+   - Let JavaScript [handle it][truth], coercing `undefined` to `false` in conditionals
 
 ### Example
 
@@ -122,7 +122,7 @@ If the example had used JavaScript's own conditionals, `undefined` would have be
 
 In general, the functions lend themselves to a functional programming style.
 
-For example, arguments of `resolve` and `collapse` can be functions, allowing one to call the resolved function directly. They are also generic, allowing one to specify the type of its resolved values.
+Arguments of `resolve` and `collapse` can be functions, allowing one to call the resolved function directly. They are also generic, allowing one to specify the type of the resolved values.
 
 ```ts
 resolve<ApplicationHandler>(result, approve, reject, review)(application)
@@ -139,7 +139,7 @@ The following logical connectives come in two variants, one for n-ary arguments 
 | XNOR       | [`xnor`][xnor] | [`same`][same]     |
 | XOR        | [`xor`][xor]   | [`differ`][differ] |
 
-The 2 argument versions have more intuitive names, making logical expressions read almost like sentences. The n-ary functions have worse performance, so only use them if more than 2 arguments are needed.
+The 2 argument versions should perform better and have more intuitive names, making logical expressions read almost like sentences.
 
 ## Truth tables
 
@@ -193,22 +193,6 @@ It's just like boolean **or**, except `undefined` wins out over `false`.
 | **U** | U     | U     | T     |
 | **T** | T     | T     | T     |
 
-### `same` / `xnor`
-
-The result is `true` only when the operands are _the same_ boolean value.
-
-- If both operands are `true` or both are `false`, it returns `true`
-- If one operand is `true` and the other is `false`, it returns `false`
-- If any operand is `undefined`, it returns `undefined`
-
-It's just like boolean **xnor**, except `undefined` always wins out.
-
-|       | **F** | **U** | **T** |
-|-------|-------|-------|-------|
-| **F** | T     | U     | F     |
-| **U** | U     | U     | U     |
-| **T** | F     | U     | T     |
-
 ### `differ` / `xor`
 
 The result is `true` only when the operands are _different_ boolean values.
@@ -224,6 +208,22 @@ It's just like boolean **xor**, except `undefined` always wins out.
 | **F** | F     | U     | T     |
 | **U** | U     | U     | U     |
 | **T** | T     | U     | F     |
+
+### `same` / `xnor`
+
+The result is `true` only when the operands are _the same_ boolean value.
+
+- If both operands are `true` or both are `false`, it returns `true`
+- If one operand is `true` and the other is `false`, it returns `false`
+- If any operand is `undefined`, it returns `undefined`
+
+It's just like boolean **xnor**, except `undefined` always wins out.
+
+|       | **F** | **U** | **T** |
+|-------|-------|-------|-------|
+| **F** | T     | U     | F     |
+| **U** | U     | U     | U     |
+| **T** | F     | U     | T     |
 
 
 ## License
@@ -256,5 +256,9 @@ This work is dual-licensed under both [MIT](LICENSE.MIT) and [XPL](LICENSE.XPL).
 [same]: https://jsr.io/@joakim/ternary/doc/~/same
 [resolve]: https://jsr.io/@joakim/ternary/doc/~/resolve
 [collapse]: https://jsr.io/@joakim/ternary/doc/~/collapse
+[toBoolean]: https://jsr.io/@joakim/ternary/doc/~/toBoolean
+[Ternary]: https://jsr.io/@joakim/ternary/doc/~/Ternary
 
 [docs]: https://jsr.io/@joakim/ternary/doc
+
+[truth]: https://www.youtube.com/watch?v=MMzd40i8TfA
