@@ -94,6 +94,21 @@ export function or(...operands: ternary[]): ternary {
 }
 
 /**
+ * Logical inequality of an arbitrary number of ternary operands.
+ *
+ * Returns `true` only if the operands are **not** all the same boolean.
+ *
+ * @returns
+ *   - `false` if all operands are the same boolean
+ *   - otherwise, `undefined` if any operand is `undefined`
+ *   - otherwise, `true`
+ * @see differ
+ */
+export function xor(...operands: ternary[]): ternary {
+  return (operands.length < 2 || operands.indexOf(undefined) > -1) ? undefined : !operands.every(operand => operand === operands[0])
+}
+
+/**
  * Logical equality of an arbitrary number of ternary operands.
  *
  * Returns `true` only if all operands are the same boolean.
@@ -109,22 +124,7 @@ export function xnor(...operands: ternary[]): ternary {
 }
 
 /**
- * Logical inequality of an arbitrary number of ternary operands.
- *
- * Returns `true` only if the operands are not all the same boolean.
- *
- * @returns
- *   - `false` if all operands are the same boolean
- *   - otherwise, `undefined` if any operand is `undefined`
- *   - otherwise, `true`
- * @see differ
- */
-export function xor(...operands: ternary[]): ternary {
-  return (operands.length < 2 || operands.indexOf(undefined) > -1) ? undefined : !operands.every(operand => operand === operands[0])
-}
-
-/**
- * Evaluates a ternary condition according to its truth value.
+ * Evaluates a ternary condition and returns the value corresponding to its truth value.
  *
  * @returns
  *   - the value of `isTrue` if the `condition` is `true`
@@ -139,18 +139,31 @@ export function resolve(condition: ternary, isTrue: any, isFalse?: any, isUndefi
 }
 
 /**
- * Collapses a ternary condition to a boolean using Priest's Logic of Paradox, where `undefined` means "both `true` and
- * `false`" and therefore evaluates to `true`.
+ * Collapses a ternary condition using Priest's Logic of Paradox, where `undefined` means "both `true` and `false`" and
+ * therefore evaluates to `true`.
  *
  * @returns
  *   - the value of `isTrue` if the `condition` is `true` or `undefined`
  *   - the value of `isFalse` if the `condition` is `false`
  * @see resolve
+ * @see toBoolean
  */
 export function collapse(condition: ternary, isTrue: unknown, isFalse?: unknown): unknown
 export function collapse<T>(condition: ternary, isTrue: T, isFalse?: T): T
 export function collapse(condition: ternary, isTrue: any, isFalse?: any): any {
   return condition === false ? isFalse : isTrue
+}
+
+/**
+ * Collapses a ternary truth value to a boolean using Priest's Logic of Paradox.
+ *
+ * @returns
+ *   - `true` if the ternary value is `true` or `undefined`
+ *   - `false` if the ternary value is `false`
+ * @see collapse
+ */
+export function toBoolean(a: ternary): boolean {
+  return collapse<boolean>(a, true, false)
 }
 
 interface TernaryInstance {
