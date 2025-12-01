@@ -1,6 +1,6 @@
 {
   "name": "@joakim/ternary",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "license": "(MIT OR XPL)",
   "type": "module",
   "module": "dist/index.js",
