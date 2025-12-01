@@ -26,7 +26,7 @@ And conditional operations:
 
 These functions enforce strict equality, unlike JavaScript's [sloppy definition of truth][truthy].
 
-Also included is [`Ternary`][ternary], a function/class like `Boolean`, for coercing any value to a ternary value (sloppy, because JavaScript), as well as [`toBoolean`][toBoolean] for collapsing a ternary value to a boolean using Priest's Logic of Paradox.
+Also included is [`Ternary`][ternary], a function/class like `Boolean`, for coercing any value to a ternary value (sloppy, because JavaScript), as well as [`toBoolean`][toBoolean] for collapsing a ternary value to a boolean using Priest's [Logic of Paradox][priest].
 
 There's also [an alternative implementation](balanced.ts) with balanced ternary (`-1`, `0`, `+1`).
 
@@ -57,9 +57,9 @@ A variable that is `true | false | undefined` is already ternary. This library m
 
 In Kleene/Łukasiewicz's ternary logic, `undefined` _propagates_: a compound condition is `true` or `false` only if it is definitely `true` or definitely `false`; otherwise it is `undefined`.
 
-In Priest's Logic of Paradox, `undefined` means it is _simultaneously_ `true` and `false`: a compound condition is `true` if it is either definitely `true` or `undefined` (`true` and `false`); otherwise it is `false`.
+In Priest's [Logic of Paradox][priest], `undefined` also propagates, but it signifies _simultaneously_ `true` and `false`. This enables collapsing a ternary condition to a boolean, where it becomes `true` if it is definitely `true` or simultaneously `true` and `false` (`undefined`).
 
-In JavaScript's own conditionals, `undefined` is coerced to `false` and effectively ignored.
+In JavaScript's own conditionals, `undefined` is coerced to `false`.
 
 ## Installation
 
@@ -120,7 +120,7 @@ collapse(result, "Approve", "Reject")
 
 If the example had used JavaScript's own conditionals, `undefined` would have been coerced to `false`, effectively rejecting any application that would otherwise need review. Not what you'd want either.
 
-If, however, it makes sense to interpret the value using Priest's Logic of Paradox, it can be safely collapsed to a boolean for use in JavaScript's conditionals.
+If, however, it makes sense to interpret the value using Priest's [Logic of Paradox][priest], it can be safely collapsed to a boolean for use in JavaScript's conditionals.
 
 ```ts
 if (toBoolean(result)) {
@@ -271,4 +271,5 @@ This work is dual-licensed under both [MIT](LICENSE.MIT) and [XPL](LICENSE.XPL).
 
 [docs]: https://jsr.io/@joakim/ternary/doc
 
+[priest]: https://grahampriest.net/?ddownload=793
 [truth]: https://www.youtube.com/watch?v=MMzd40i8TfA
