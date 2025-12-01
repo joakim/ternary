@@ -26,7 +26,9 @@ And conditional operations:
 
 These functions enforce strict equality, unlike JavaScript's [sloppy definition of truth][truthy].
 
-Also included is [`Ternary`][ternary], a function/class like `Boolean`, for coercing any value to a ternary value (sloppy, because JavaScript), as well as [`toBoolean`][toBoolean] for collapsing a ternary value to a boolean using Priest's Logic of Paradox. There's also [an alternative implementation](balanced.ts) with balanced ternary (`-1`, `0`, `+1`).
+Also included is [`Ternary`][ternary], a function/class like `Boolean`, for coercing any value to a ternary value (sloppy, because JavaScript), as well as [`toBoolean`][toBoolean] for collapsing a ternary value to a boolean using Priest's Logic of Paradox.
+
+There's also [an alternative implementation](balanced.ts) with balanced ternary (`-1`, `0`, `+1`).
 
 ## What for?
 
