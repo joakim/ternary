@@ -42,19 +42,6 @@ export function either(a: ternary, b: ternary): ternary {
 }
 
 /**
- * Logical equality of two ternary operands.
- *
- * @returns
- *   - `true` if both operands are the same boolean
- *   - `undefined` if any operand is `undefined`
- *   - otherwise, `false`
- * @see xnor
- */
-export function same(a: ternary, b: ternary): ternary {
-  return a === undefined || b === undefined ? undefined : a === b
-}
-
-/**
  * Logical inequality of two ternary operands.
  *
  * @returns
@@ -65,6 +52,19 @@ export function same(a: ternary, b: ternary): ternary {
  */
 export function differ(a: ternary, b: ternary): ternary {
   return a === undefined || b === undefined ? undefined : a !== b
+}
+
+/**
+ * Logical equality of two ternary operands.
+ *
+ * @returns
+ *   - `true` if both operands are the same boolean
+ *   - `undefined` if any operand is `undefined`
+ *   - otherwise, `false`
+ * @see xnor
+ */
+export function same(a: ternary, b: ternary): ternary {
+  return a === undefined || b === undefined ? undefined : a === b
 }
 
 /**
