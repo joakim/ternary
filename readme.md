@@ -55,7 +55,7 @@ A variable that is `true | false | undefined` is already ternary. This library m
 
 In Kleene/Łukasiewicz's ternary logic, `undefined` _propagates_: a compound condition is `true` or `false` only if it is definitely `true` or definitely `false`; otherwise it is `undefined`.
 
-In Priest's Logic of Paradox, a compound condition is `true` if it is either definitely `true` or _simultaneously_ `true` and `false`, here represented by the value `undefined`.
+In Priest's Logic of Paradox, `undefined` means it is _simultaneously_ `true` and `false`: a compound condition is `true` if it is either definitely `true` or `undefined` (`true` and `false`).
 
 In JavaScript's own conditionals, `undefined` is coerced to `false` and effectively ignored.
 
@@ -74,9 +74,9 @@ When working with ternary logic, one must choose the semantics of `undefined`, w
 That means deciding:
 
 1. What the third value means
-   - Kleene's K₃: not known
+   - Kleene's K₃: not known/knowable
    - Łukasiewicz's Ł₃: not _yet_ known
-   - Priest's LP: known to be _simultaneously_ true and false
+   - Priest's LP: known to be _simultaneously_ `true` and `false`
 
 2. How to handle the truth
    - [`resolve`][resolve] it, acknowledging the existence of the third value
@@ -108,7 +108,7 @@ check({ income: true,  debt: undefined, assets: false, history: false }) // "Nee
 check({ income: false, debt: undefined, assets: true,  history: false }) // "Reject"
 ```
 
-When working with ternary logic, it often makes sense to acknowledge the third value with `resolve`.
+When working with ternary logic, it often makes most sense to acknowledge the third value with the `resolve` conditional.
 
 If the example had used `collapse`, `undefined` would have been evaluated as `true`, effectively approving any loan application that would otherwise need review. Very generous, but not what you'd want.
 
@@ -118,11 +118,19 @@ collapse(result, "Approve", "Reject")
 
 If the example had used JavaScript's own conditionals, `undefined` would have been coerced to `false`, effectively rejecting any application that would otherwise need review. Not what you'd want either.
 
+If, however, it makes sense to interpret the value using Priest's Logic of Paradox, it can be safely collapsed to a boolean for use in JavaScript's conditionals.
+
+```ts
+if (toBoolean(result)) {
+  // true, possibly paradoxical
+}
+```
+
 ### Tips
 
 In general, the functions lend themselves to a functional programming style.
 
-Arguments of `resolve` and `collapse` can be functions, allowing one to call the resolved function directly. They are also generic, allowing one to specify the type of the resolved values.
+Arguments of `resolve` and `collapse` can be functions, allowing one to call the returned function directly. They are also generic, allowing one to specify a return type.
 
 ```ts
 resolve<ApplicationHandler>(result, approve, reject, review)(application)
@@ -139,7 +147,7 @@ The following logical connectives come in two variants, one for n-ary arguments 
 | XNOR       | [`xnor`][xnor] | [`same`][same]     |
 | XOR        | [`xor`][xor]   | [`differ`][differ] |
 
-The 2 argument versions should perform better and have more intuitive names, making logical expressions read almost like sentences.
+The 2 argument versions have more intuitive names, making logical expressions read almost like sentences, and should perform better.
 
 ## Truth tables
 
