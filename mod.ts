@@ -1,6 +1,6 @@
 /**
- * Ternary values can be one of three values: `true`, `false` or `undefined`, representing the truth value of a
- * three-valued logical proposition.
+ * A ternary can be one of three values: `true`, `false` or `undefined`, representing the truth value of a three-valued
+ * logical proposition.
  */
 export type ternary = boolean | undefined
 
@@ -76,8 +76,8 @@ export function same(a: ternary, b: ternary): ternary {
  *   - otherwise, `true`
  * @see both
  */
-export function and(...operands: ternary[]): ternary {
-  return operands.reduce(both)
+export function and(...n: ternary[]): ternary {
+  return n.reduce(both)
 }
 
 /**
@@ -89,8 +89,8 @@ export function and(...operands: ternary[]): ternary {
  *   - otherwise, `false`
  * @see either
  */
-export function or(...operands: ternary[]): ternary {
-  return operands.reduce(either)
+export function or(...n: ternary[]): ternary {
+  return n.reduce(either)
 }
 
 /**
@@ -104,8 +104,8 @@ export function or(...operands: ternary[]): ternary {
  *   - otherwise, `true`
  * @see differ
  */
-export function xor(...operands: ternary[]): ternary {
-  return (operands.length < 2 || operands.indexOf(undefined) > -1) ? undefined : !operands.every(operand => operand === operands[0])
+export function xor(...n: ternary[]): ternary {
+  return (n.length < 2 || n.indexOf(undefined) > -1) ? undefined : !n.every(v => v === n[0])
 }
 
 /**
@@ -119,12 +119,12 @@ export function xor(...operands: ternary[]): ternary {
  *   - otherwise, `false`
  * @see same
  */
-export function xnor(...operands: ternary[]): ternary {
-  return (operands.length < 2 || operands.indexOf(undefined) > -1) ? undefined : operands.every(operand => operand === operands[0])
+export function xnor(...n: ternary[]): ternary {
+  return (n.length < 2 || n.indexOf(undefined) > -1) ? undefined : n.every(v => v === n[0])
 }
 
 /**
- * Evaluates a ternary condition and returns the value corresponding to its truth value.
+ * Evaluates a ternary condition and returns the argument corresponding to its truth value.
  *
  * @returns
  *   - the value of `isTrue` if the `condition` is `true`
@@ -139,8 +139,7 @@ export function resolve(condition: ternary, isTrue: any, isFalse?: any, isUndefi
 }
 
 /**
- * Collapses a ternary condition using Priest's Logic of Paradox, where `undefined` means "both `true` and `false`" and
- * therefore evaluates to `true`.
+ * Collapses a ternary condition using Priest's Logic of Paradox.
  *
  * @returns
  *   - the value of `isTrue` if the `condition` is `true` or `undefined`
@@ -155,11 +154,11 @@ export function collapse(condition: ternary, isTrue: any, isFalse?: any): any {
 }
 
 /**
- * Collapses a ternary truth value to a boolean using Priest's Logic of Paradox.
+ * Collapses a ternary to a boolean using Priest's Logic of Paradox.
  *
  * @returns
- *   - `true` if the ternary value is `true` or `undefined`
- *   - `false` if the ternary value is `false`
+ *   - `true` if the ternary is `true` or `undefined`
+ *   - `false` if the ternary is `false`
  * @see collapse
  */
 export function toBoolean(a: ternary): boolean {
@@ -169,7 +168,7 @@ export function toBoolean(a: ternary): boolean {
 interface TernaryInstance {
   /** Returns the primitive value of the `Ternary` object. */
   valueOf(): ternary
-  /** Returns a string representation of the ternary value. */
+  /** Returns a string representation of the ternary. */
   toString(): string
 }
 
