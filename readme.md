@@ -57,7 +57,7 @@ A variable that is `true | false | undefined` is already ternary. This library m
 
 In Kleene/Łukasiewicz's ternary logic, `undefined` _propagates_: a compound condition is `true` or `false` only if it is definitely `true` or definitely `false`; otherwise it is `undefined`.
 
-In Priest's [Logic of Paradox][priest], `undefined` also propagates, but it signifies _simultaneously_ `true` and `false`. This enables collapsing a ternary condition to a boolean, where it becomes `true` if it is definitely `true` or simultaneously `true` and `false` (`undefined`).
+In Priest's [Logic of Paradox][priest], `undefined` also propagates, but it signifies _simultaneously_ `true` and `false`.
 
 In JavaScript's own conditionals, `undefined` is coerced to `false`.
 
